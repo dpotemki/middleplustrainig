@@ -1,6 +1,8 @@
+using NewsPortal.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+builder.AddInfrastructureServices();
 
 app.Run();

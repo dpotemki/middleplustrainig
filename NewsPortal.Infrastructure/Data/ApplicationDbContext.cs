@@ -6,11 +6,11 @@ namespace NewsPortal.Infrastructure.Data;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
 {
-    public DbSet<Article> Article => Set<Article>();
-    public DbSet<ArticleTag> ArticleTag => Set<ArticleTag>();
-    public DbSet<Author> Author => Set<Author>();
-    public DbSet<Category> Category => Set<Category>();
-    public DbSet<Tag> Tag => Set<Tag>();
+    public DbSet<ArticleEntity> Articles => Set<ArticleEntity>();
+    public DbSet<ArticleTagEntity> ArticleTags => Set<ArticleTagEntity>();
+    public DbSet<AuthorEntity> Authors => Set<AuthorEntity>();
+    public DbSet<CategoryEntity> Category => Set<CategoryEntity>();
+    public DbSet<TagEntity> Tags => Set<TagEntity>();
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
