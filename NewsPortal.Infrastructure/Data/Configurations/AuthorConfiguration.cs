@@ -8,6 +8,9 @@ public class AuthorConfiguration : IEntityTypeConfiguration<AuthorEntity>
 {
     public void Configure(EntityTypeBuilder<AuthorEntity> builder)
     {
-        throw new NotImplementedException();
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
+        builder.Property(x => x.Email).IsRequired().HasMaxLength(50);
+        
     }
 }

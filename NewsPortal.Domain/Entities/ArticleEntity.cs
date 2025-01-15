@@ -16,5 +16,6 @@ public class ArticleEntity
     public long AuthorId { get; set; }
     public CategoryEntity Category { get; set; }
     public long CategoryId { get; set; } 
-    public ICollection<ArticleTagEntity> ArticleTags { get; set; }
+    
+    public ICollection<TagEntity> Tags { get; set; }
 }
