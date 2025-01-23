@@ -46,11 +46,13 @@ public sealed class AppDbContext : DbContext
         }
     }
 
-    private static readonly string ConnectionString = $"Data Source={System.Environment.CurrentDirectory}\\sqlite.db";
+    private const string ConnectionString =
+        "Data Source=C:\\Users\\kuznecov\\OneDrive\\Рабочий стол\\LevelUp\\sqlite.db";
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite(ConnectionString);
+        optionsBuilder.UseSqlite(ConnectionString)
+            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     }
     
     public override int SaveChanges()
@@ -89,7 +91,7 @@ public sealed class AppDbContext : DbContext
                 var originalValue = property.GetValue(originalValues);
                 var currentValue = property.GetValue(currentValues);
 
-                if (!originalValue.Equals(currentValue))
+                if ((originalValue!= null && currentValue != null) && !originalValue.Equals(currentValue))
                 {
                     Console.WriteLine($"Изменено свойство {property.Name}: {originalValue} -> {currentValue}");
                 }

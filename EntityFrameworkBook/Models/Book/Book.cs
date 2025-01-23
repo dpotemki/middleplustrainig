@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace EntityFrameworkBook.Models.Book;
+﻿namespace EntityFrameworkBook.Models.Book;
 
 public class Book
 {

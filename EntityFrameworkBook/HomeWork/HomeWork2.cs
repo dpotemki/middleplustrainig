@@ -47,8 +47,12 @@ public class HomeWork2
         try
         {
             await using var db = new AppDbContext();
-            string sql = "UPDATE Books SET Title = @newTitle WHERE BookId < @bookId";
-            db.Books.FromSqlRaw(sql, new { newTitle = "Вот так", bookId = 3 });
+            var newTitle = "Вот так";
+            var bookId = 2;
+            string sql = $"UPDATE Books SET Title = {newTitle} WHERE BookId = {bookId}";
+            await db.Database.ExecuteSqlRawAsync(
+                "UPDATE Books SET Title = {0} WHERE BookId < {1}", 
+                newTitle, bookId);
         }
         catch (Exception e)
         {
