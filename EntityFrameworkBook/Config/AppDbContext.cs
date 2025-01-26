@@ -6,55 +6,9 @@ namespace EntityFrameworkBook.Config;
 
 public sealed class AppDbContext : DbContext
 {
-    public AppDbContext()
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) 
     {
-        Database.EnsureDeleted(); // удаляем бд со старой схемой
-        Database.EnsureCreated(); // создаем бд с новой схемой
-        Initialize();
     }
-
-    public void Initialize()
-    {
-        if (!Database.CanConnect())
-        {
-            Database.EnsureCreated();
-        }
-
-        if (!Authors.Any())
-        {
-            Authors.AddRange(
-                new Author() { AuthorId = 1, Name = "Иван Иванов", WebUrl = "Test" },
-                new Author { AuthorId = 2, Name = "Петр Петров", WebUrl = "Test2" }
-            );
-            SaveChanges();
-        }
-
-        if (!Books.Any())
-        {
-            Books.AddRange(
-                new Book()
-                {
-                    BookId = 1, AuthorId = 1, Description = "New Book", Title = "Title new", PublishedOn = DateTime.Now,
-                },
-                new Book()
-                {
-                    BookId = 2, AuthorId = 2, Description = "New Book22", Title = "Title new222",
-                    PublishedOn = DateTime.Now,
-                }
-            );
-            SaveChanges();
-        }
-    }
-
-    private const string ConnectionString =
-        "Data Source=C:\\Users\\kuznecov\\OneDrive\\Рабочий стол\\LevelUp\\sqlite.db";
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlite(ConnectionString)
-            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-    }
-    
     public override int SaveChanges()
     {
         

@@ -5,11 +5,12 @@ namespace EntityFrameworkBook.HomeWork;
 
 public class HomeWork2
 {
+    public static readonly DbContextOptions<AppDbContext> _options;
     public static async void UpdateOne()
     {
         try
         {
-            await using (var db = new AppDbContext())
+            await using (var db = new AppDbContext(_options))
             {
                 await db.Books
                     .Where(b => b.BookId == 1)
@@ -27,7 +28,7 @@ public class HomeWork2
     {
         try
         {
-            await using (var db = new AppDbContext())
+            await using (var db = new AppDbContext(_options))
             {
                 await db.Books
                     .Where(b => b.BookId < 3)
@@ -46,7 +47,7 @@ public class HomeWork2
     {
         try
         {
-            await using var db = new AppDbContext();
+            await using var db = new AppDbContext(_options);
             var newTitle = "Вот так";
             var bookId = 2;
             string sql = $"UPDATE Books SET Title = {newTitle} WHERE BookId = {bookId}";

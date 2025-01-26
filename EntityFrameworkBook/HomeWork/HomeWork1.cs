@@ -5,9 +5,10 @@ namespace EntityFrameworkBook.HomeWork;
 
 public class HomeWork1
 {
+    public static readonly DbContextOptions<AppDbContext> _options;
     public static void Tracking()
     {
-        using (var context = new AppDbContext())
+        using (var context = new AppDbContext(_options))
         {
             //Select
             var entity = context.Books.AsTracking().FirstOrDefault(e => e.BookId == 1);
@@ -31,7 +32,7 @@ public class HomeWork1
     
     public static void NoTracking()
     {
-        using (var context = new AppDbContext())
+        using (var context = new AppDbContext(_options))
         {
             //Select
             var entity = context.Books.FirstOrDefault(e => e.BookId == 1);

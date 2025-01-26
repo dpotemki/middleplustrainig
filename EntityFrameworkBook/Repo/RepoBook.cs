@@ -5,9 +5,11 @@ namespace EntityFrameworkBook.Repo;
 
 public class RepoBook
 {
+    public static readonly DbContextOptions<AppDbContext> _options;
     public static void ListAll()
     {
-        using (var db = new AppDbContext())
+        
+        using (var db = new AppDbContext(_options))
         {
             var books = db.Books.ToList();
             if (!books.Any())
@@ -36,7 +38,7 @@ public class RepoBook
     {
         Console.Write("New Quantum Networking WebUrl > ");
         var newWebUrl = Console.ReadLine();
-        using (var db = new AppDbContext())
+        using (var db = new AppDbContext(_options))
         {
             var singleBook = db.Books
                 .Include(book => book.Author)

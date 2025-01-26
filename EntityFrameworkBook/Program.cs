@@ -1,16 +1,40 @@
 ﻿
-using EntityFrameworkBook.HomeWork;
+using EntityFrameworkBook.Config;
+using EntityFrameworkBook.Workers;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-/*HomeWork1.DeleteTracking();
-HomeWork1.SelectTracking();
-HomeWork1.SelectNoTracking();
-HomeWork1.UpdateTracking();*/
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        try
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
 
-    //HomeWork1.NoTracking();
-HomeWork2.UpdateBooksSql();
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((hostContext, config) =>
+            {
+                config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            })
+            .ConfigureServices((hostContext, services) =>
+            {
+                var connectionString = hostContext.Configuration.GetConnectionString("DefaultConnection"); 
+                Console.WriteLine($"Connection String: {connectionString}"); 
 
-//HomeWork2.UpdateOne();
-//HomeWork2.UpdateMany();
-//HomeWork2.UpdateBooksSql();
-//HomeWork2.UpdateOne();
-//RepoBook.ListAll();
+                services.AddDbContext<AppDbContext>(options =>
+                    options.UseSqlite(connectionString)
+                        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+
+                services.AddHostedService<BookReaderWorker>();
+            });
+}
